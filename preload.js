@@ -5,8 +5,6 @@ const {webFrame, ipcRenderer} = require('electron')
 const path = require('path')
 const fs = require('fs')
 
-// const INJECT_JS_PATH = path.join(__dirname, '', 'inject/inject.js');
-
 setNotificationCallback((title, opt) => {
     ipcRenderer.send('notification', title, opt);
 });
@@ -49,3 +47,26 @@ function clickSelector(element) {
     const mouseEvent = new MouseEvent('click');
     element.dispatchEvent(mouseEvent);
 }
+
+
+(function(){
+  // var root = document.documentElement;
+  // root.classList.add('electron-client');
+  document.addEventListener('DOMContentLoaded', function(){
+
+    // Say hi to our new friends.
+    window.Notification('Did you know?', {
+      body: 'If we added web notifications they would appear natively here? (also, they would be pre-approved)'
+    });
+
+    //Added a class incase the app wants that...
+    document.documentElement.classList.add('electron-client');
+
+    // Adding our own style overrides...
+    var link = document.createElement("link");
+    link.href = path.join('file://',__dirname, 'preload.css');
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    document.getElementsByTagName("head")[0].appendChild(link);
+  }, false);
+})();

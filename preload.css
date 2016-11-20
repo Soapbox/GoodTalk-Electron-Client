@@ -1,0 +1,22 @@
+body {
+  margin-top: 98px;
+}
+.topbar__container {
+  margin-top: 34px;
+  padding: 0;
+}
+.topbar__container:before {
+  content: 'Goodtalk';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 37px;
+  background: linear-gradient(rgba(0,0,0,0.1), rgba(0, 0, 0, 0.15));
+  line-height: 37px;
+  text-align: center;
+  color: rgba(0,0,0,0.6);
+  font-size: 14px;
+  text-shadow: 0 1px 1px rgba(255,255,255,0.2);
+  -webkit-app-region: drag;
+}

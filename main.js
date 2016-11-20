@@ -14,10 +14,12 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-      // titleBarStyle: 'hidden-inset',
+      titleBarStyle: 'hidden-inset',
       backgroundColor: '#f8f8f8',
       width: 800,
       height: 600,
+      minHeight: 500,
+      minWidth: 320,
       // Convert dashes to spaces because on linux the app name is joined with dashes
       webPreferences: {
           javascript: true,
@@ -33,11 +35,8 @@ function createWindow () {
       // fullscreen: options.fullScreen || undefined
     });
 
-  // and load the index.html of the app.
+
   mainWindow.loadURL(url.format({
-    // pathname: path.join(__dirname, 'index.html'),
-    // protocol: 'file:',
-    // slashes: true
     // pathname: 'ideate.io',
     // protocol: 'https:',
     pathname: 'localhost:4200',
