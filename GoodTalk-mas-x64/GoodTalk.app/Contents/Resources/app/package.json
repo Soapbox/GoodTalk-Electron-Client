@@ -6,15 +6,13 @@
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/SoapBox/GoodTalk-Electron-Client",
   "keywords": [
+    "GoodTalk",
     "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "Client"
   ],
-  "author": "GitHub",
+  "author": "SoapBox",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^1.4.1",
