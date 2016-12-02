@@ -55,9 +55,9 @@ function clickSelector(element) {
   document.addEventListener('DOMContentLoaded', function(){
 
     // Say hi to our new friends.
-    window.Notification('Did you know?', {
-      body: 'If we added web notifications they would appear natively here? (also, they would be pre-approved)'
-    });
+    // window.Notification('Did you know?', {
+    //   body: 'If we added web notifications they would appear natively here? (also, they would be pre-approved)'
+    // });
 
     //Added a class incase the app wants that...
     document.documentElement.classList.add('electron-client');

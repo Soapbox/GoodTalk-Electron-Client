@@ -14,26 +14,22 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-      titleBarStyle: 'hidden-inset',
-      backgroundColor: '#f8f8f8',
-      width: 800,
-      height: 600,
-      minHeight: 500,
-      minWidth: 320,
-      // Convert dashes to spaces because on linux the app name is joined with dashes
-      webPreferences: {
-          javascript: true,
-          plugins: true,
-          // node globals causes problems with sites like messenger.com
-          nodeIntegration: false,
-          webSecurity: false,
-          preload: path.join(__dirname, 'preload.js'),
-      },
-      // after webpack path here should reference `resources/app/`
-      // icon: path.join(__dirname, '../', '/icon.png'),
-      // set to undefined and not false because explicitly setting to false will disable full screen
-      // fullscreen: options.fullScreen || undefined
-    });
+    // titleBarStyle: 'hidden-inset',
+    backgroundColor: '#f8f8f8',
+    width: 800,
+    height: 600,
+    minHeight: 500,
+    minWidth: 320,
+    webPreferences: {
+      javascript: true,
+      plugins: true,
+      nodeIntegration: false, // node globals causes problems with complex web apps
+      webSecurity: false,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+    // after webpack path here should reference `resources/app/`
+    icon: path.join(__dirname, 'icon.png'),
+  });
 
 
   mainWindow.loadURL(url.format({
@@ -45,7 +41,7 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
