@@ -10,5 +10,5 @@ npm start
 ## Build
 Read/use: https://github.com/electron-userland/electron-packager
 ```
-electron-packager . --all
+electron-packager . --platform=mas --icon=icon.icns --overwrite
 ```

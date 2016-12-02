@@ -49,24 +49,24 @@ function clickSelector(element) {
 }
 
 
-(function(){
-  // var root = document.documentElement;
-  // root.classList.add('electron-client');
-  document.addEventListener('DOMContentLoaded', function(){
-
-    // Say hi to our new friends.
-    // window.Notification('Did you know?', {
-    //   body: 'If we added web notifications they would appear natively here? (also, they would be pre-approved)'
-    // });
-
-    //Added a class incase the app wants that...
-    document.documentElement.classList.add('electron-client');
-
-    // Adding our own style overrides...
-    var link = document.createElement("link");
-    link.href = path.join('file://',__dirname, 'preload.css');
-    link.type = "text/css";
-    link.rel = "stylesheet";
-    document.getElementsByTagName("head")[0].appendChild(link);
-  }, false);
-})();
+// (function(){
+//   // var root = document.documentElement;
+//   // root.classList.add('electron-client');
+//   document.addEventListener('DOMContentLoaded', function(){
+//
+//     // Say hi to our new friends.
+//     // window.Notification('Did you know?', {
+//     //   body: 'If we added web notifications they would appear natively here? (also, they would be pre-approved)'
+//     // });
+//
+//     //Added a class incase the app wants that...
+//     document.documentElement.classList.add('electron-client');
+//
+//     // Adding our own style overrides...
+//     var link = document.createElement("link");
+//     link.href = path.join('file://',__dirname, 'preload.css');
+//     link.type = "text/css";
+//     link.rel = "stylesheet";
+//     document.getElementsByTagName("head")[0].appendChild(link);
+//   }, false);
+// })();
