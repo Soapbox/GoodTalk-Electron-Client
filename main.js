@@ -1,5 +1,5 @@
 const electron = require('electron')
-const {shell} = require('electron')
+const { shell } = require('electron')
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
@@ -7,6 +7,11 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
+
+const electronLinks = [
+  'https://slack.com/signin',
+  'https://slack.com/oauth'
+];
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -45,7 +50,15 @@ function createWindow () {
 
   // Open links in the browser
   mainWindow.webContents.on('new-window', function(e, url) {
-    if (url.indexOf('https://slack.com/signin') === -1 && url.indexOf('https://slack.com/oauth') === -1) {
+    var openExternally = true;
+
+    for (link of electronLinks) {
+      test = url.toLowerCase();
+      link = link.toLowerCase();
+      openExternally = !test.includes(link) && openExternally;
+    }
+
+    if (openExternally) {
       e.preventDefault();
       shell.openExternal(url);
     }
