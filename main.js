@@ -45,7 +45,7 @@ function createWindow () {
 
   // Open links in the browser
   mainWindow.webContents.on('new-window', function(e, url) {
-    if (url.indexOf('slack.com') === -1) {
+    if (url.indexOf('https://slack.com/signin') === -1 && url.indexOf('https://slack.com/oauth') === -1) {
       e.preventDefault();
       shell.openExternal(url);
     }
