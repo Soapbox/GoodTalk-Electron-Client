@@ -1,8 +1,12 @@
-const {app, Menu, BrowserWindow} = require('electron')
+const { app, BrowserWindow, Menu, shell } = require('electron')
 
 const path = require('path')
 const url = require('url')
 
+const electronLinks = [
+  'https://slack.com/signin',
+  'https://slack.com/oauth'
+];
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -28,7 +32,6 @@ function createWindow () {
     icon: path.join(__dirname, 'icon.png'),
   });
 
-
   mainWindow.loadURL(url.format({
     pathname: 'ideate.io',
     protocol: 'https:',
@@ -39,6 +42,22 @@ function createWindow () {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
+
+  // Open links in the browser
+  mainWindow.webContents.on('new-window', function(e, url) {
+    var openExternally = true;
+
+    for (link of electronLinks) {
+      test = url.toLowerCase();
+      link = link.toLowerCase();
+      openExternally = !test.includes(link) && openExternally;
+    }
+
+    if (openExternally) {
+      e.preventDefault();
+      shell.openExternal(url);
+    }
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
