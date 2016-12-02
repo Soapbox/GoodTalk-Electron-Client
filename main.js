@@ -1,4 +1,5 @@
 const electron = require('electron')
+const {shell} = require('electron')
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
@@ -31,7 +32,6 @@ function createWindow () {
     icon: path.join(__dirname, 'icon.png'),
   });
 
-
   mainWindow.loadURL(url.format({
     pathname: 'ideate.io',
     protocol: 'https:',
@@ -42,6 +42,14 @@ function createWindow () {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
+
+  // Open links in the browser
+  mainWindow.webContents.on('new-window', function(e, url) {
+    if (url.indexOf('slack.com') === -1) {
+      e.preventDefault();
+      shell.openExternal(url);
+    }
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
