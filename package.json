@@ -1,18 +1,18 @@
 {
-  "name": "GoodTalk",
-  "version": "0.0.1-beta.2",
-  "description": "A minimal app for good talks.",
+  "name": "Soapbox",
+  "version": "0.0.1-beta.3",
+  "description": "SoapBox is an app designed to help managers have better one-on-ones, team meetings and discussions. Build agendas, manage meetings, get feedback and ideas- all in one place.",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
   "repository": "https://github.com/SoapBox/GoodTalk-Electron-Client",
   "keywords": [
-    "GoodTalk",
+    "Soapbox",
     "Electron",
     "Client"
   ],
-  "author": "SoapBox",
+  "author": "Soapbox",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^7.1.11",

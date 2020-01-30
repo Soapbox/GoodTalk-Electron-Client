@@ -33,10 +33,8 @@ function createWindow () {
   });
 
   mainWindow.loadURL(url.format({
-    pathname: 'ideate.io',
+    pathname: 'app.soapboxhq.com',
     protocol: 'https:',
-    // pathname: 'localhost:4200',
-    // protocol: 'http:',
     slashes: true
   }))
 
