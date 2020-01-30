@@ -16,6 +16,6 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^7.1.11",
-    "electron-packager": "^8.3.0"
+    "electron-packager": "^8.7.2"
   }
 }
