@@ -5,7 +5,9 @@ const url = require('url')
 
 const electronLinks = [
   'https://slack.com/signin',
-  'https://slack.com/oauth'
+  'https://slack.com/oauth',
+  'https://accounts.google.com/o/oauth2/v2/auth',
+  'https://www.googleapis.com/oauth2/v4/token',
 ];
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -17,10 +19,10 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     // titleBarStyle: 'hidden-inset',
     backgroundColor: '#f8f8f8',
-    width: 800,
-    height: 600,
-    minHeight: 500,
-    minWidth: 320,
+    width: 1200,
+    height: 800,
+    minHeight: 1000,
+    minWidth: 520,
     webPreferences: {
       javascript: true,
       plugins: true,
