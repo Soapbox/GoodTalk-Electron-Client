@@ -20,3 +20,21 @@
   text-shadow: 0 1px 1px rgba(255,255,255,0.2);
   -webkit-app-region: drag;
 }*/
+
+/* DARK MODE */
+body {
+  background-color: #111 !important;
+  color: #eee;
+}
+
+body .bg-light {
+  background-color: #333 !important;
+}
+
+body .bg-white {
+  background-color: #000 !important;
+}
+
+body .bg-black {
+  background-color: #eee !important;
+}

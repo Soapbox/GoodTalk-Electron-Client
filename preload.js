@@ -53,8 +53,6 @@ process.once('document-start', () => {
 
     // map multiple combinations to the same callback
     Mousetrap.bind(['command+[', 'ctrl+['], () => {
-        console.log('Close Sidebar')
-
         document.querySelector('[data-auto-id="top-bar-menu-toggle"]').click();
 
         // return false to prevent default behavior and stop event from bubbling
@@ -63,22 +61,29 @@ process.once('document-start', () => {
 
     // map multiple combinations to the same callback
     Mousetrap.bind(['command+]', 'ctrl+]'], () => {
-        console.log('Open Sidebar')
-
-        document.querySelector('[data-auto-id="top-bar-menu-toggle"]').click();
+        var selection = document.querySelector('[data-auto-id="top-bar-menu-toggle"]');
+        
+        if(selection) {
+            selection.click();
+        }
 
         // return false to prevent default behavior and stop event from bubbling
         return false
     })
 
     Mousetrap.bind('up', () => {
-        console.log('Arrow Up')
-        document.querySelector('.item-iterator a[title="Previous"]').click();
+        var selection = document.querySelector('.item-iterator a[title="Previous"]');
+        
+        if(selection) {
+            selection.click();
+        }
     })
 
     Mousetrap.bind('down', () => {
-        console.log('Arrow Down')
-        document.querySelector('.item-iterator a[title="Next"]').click();
+        var selection = document.querySelector('.item-iterator a[title="Next"]');
+        if(selection) {
+            selection.click();
+        }
     })
 });
 
