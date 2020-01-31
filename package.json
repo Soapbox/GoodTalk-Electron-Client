@@ -20,5 +20,8 @@
     "electron": "^7.1.11",
     "electron-installer-dmg": "^3.0.0",
     "electron-packager": "^8.7.2"
+  },
+  "dependencies": {
+    "mousetrap": "^1.6.5"
   }
 }

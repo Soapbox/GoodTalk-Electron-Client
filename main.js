@@ -2,12 +2,14 @@ const { app, BrowserWindow, Menu, shell } = require('electron')
 
 const path = require('path')
 const url = require('url')
+ 
 
 const electronLinks = [
   'https://slack.com/signin',
   'https://slack.com/oauth',
   'https://accounts.google.com/o/oauth2/v2/auth',
   'https://www.googleapis.com/oauth2/v4/token',
+  'https://accounts.google.com/signin/oauth/oauthchooseaccount'
 ];
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -15,14 +17,15 @@ const electronLinks = [
 let mainWindow
 
 function createWindow () {
+  
   // Create the browser window.
   mainWindow = new BrowserWindow({
     // titleBarStyle: 'hidden-inset',
     backgroundColor: '#f8f8f8',
     width: 1200,
     height: 800,
-    minHeight: 1000,
-    minWidth: 520,
+    minWidth: 660,
+    minHeight: 400,
     webPreferences: {
       javascript: true,
       plugins: true,
@@ -41,7 +44,7 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  //mainWindow.webContents.openDevTools()
 
   // Open links in the browser
   mainWindow.webContents.on('new-window', function(e, url) {
@@ -67,7 +70,7 @@ function createWindow () {
   var template = [{
         label: "Application",
         submenu: [
-            { label: "About Application", selector: "orderFrontStandardAboutPanel:" },
+            { label: "About", selector: "orderFrontStandardAboutPanel:" },
             { type: "separator" },
             { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
         ]}, {
@@ -80,16 +83,28 @@ function createWindow () {
             { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
             { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
             { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+        ]},{
+        label: 'View',
+        submenu: [
+          { label: 'Reload', accelerator: 'CmdOrCtrl+R', click(item, focusedWindow) {
+              //require('electron').remote.getCurrentWindow().reload();
+              mainWindow.webContents.reload()
+            }}, 
+          { label: 'Toggle Developer Tools', accelerator: 'CmdOrCtrl+I', click(item, focusedWindow) {
+              mainWindow.webContents.openDevTools()
+            }}
         ]}
     ];
 
-    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', function ()  {
+  createWindow()
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {

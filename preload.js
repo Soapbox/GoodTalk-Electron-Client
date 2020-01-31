@@ -48,6 +48,39 @@ function clickSelector(element) {
     element.dispatchEvent(mouseEvent);
 }
 
+process.once('document-start', () => {
+    var Mousetrap = require('mousetrap')
+
+    // map multiple combinations to the same callback
+    Mousetrap.bind(['command+[', 'ctrl+['], () => {
+        console.log('Close Sidebar')
+
+        document.querySelector('[data-auto-id="top-bar-menu-toggle"]').click();
+
+        // return false to prevent default behavior and stop event from bubbling
+        return false
+    })
+
+    // map multiple combinations to the same callback
+    Mousetrap.bind(['command+]', 'ctrl+]'], () => {
+        console.log('Open Sidebar')
+
+        document.querySelector('[data-auto-id="top-bar-menu-toggle"]').click();
+
+        // return false to prevent default behavior and stop event from bubbling
+        return false
+    })
+
+    Mousetrap.bind('up', () => {
+        console.log('Arrow Up')
+        document.querySelector('.item-iterator a[title="Previous"]').click();
+    })
+
+    Mousetrap.bind('down', () => {
+        console.log('Arrow Down')
+        document.querySelector('.item-iterator a[title="Next"]').click();
+    })
+});
 
 // (function(){
 //   // var root = document.documentElement;
