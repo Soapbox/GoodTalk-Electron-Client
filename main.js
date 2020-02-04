@@ -1,8 +1,11 @@
-const { app, BrowserWindow, Menu, shell } = require('electron')
-
+const { app, BrowserWindow, Menu, shell } = require('electron');
+const Store = require('electron-store');
 const path = require('path')
 const url = require('url')
- 
+
+const store = new Store();
+const BASE_DOMAIN = "soapboxhq.com";
+const API_HOST = "api.goodtalk.soapboxhq.com";
 
 const electronLinks = [
   'https://slack.com/signin',
@@ -17,7 +20,6 @@ const electronLinks = [
 let mainWindow
 
 function createWindow () {
-  
   // Create the browser window.
   mainWindow = new BrowserWindow({
     // titleBarStyle: 'hidden-inset',
@@ -38,13 +40,23 @@ function createWindow () {
   });
 
   mainWindow.loadURL(url.format({
-    pathname: 'app.soapboxhq.com',
+    pathname: getSoapboxURL(),
     protocol: 'https:',
     slashes: true
   }))
 
-  // Open the DevTools.
-  //mainWindow.webContents.openDevTools()
+  function getSoapboxURL() {
+    var url = 'app.soapboxhq.com';
+
+    var token = store.get('token');
+    var soapboxUrl = store.get('soapboxUrl');
+
+    if(soapboxUrl && token) {
+      var url = soapboxUrl;
+    }
+    console.log(url);
+    return url;
+  }
 
   // Open links in the browser
   mainWindow.webContents.on('new-window', function(e, url) {
@@ -68,33 +80,28 @@ function createWindow () {
   });
 
   var template = [{
-        label: "Application",
-        submenu: [
-            { label: "About", selector: "orderFrontStandardAboutPanel:" },
-            { type: "separator" },
-            { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
-        ]}, {
-        label: "Edit",
-        submenu: [
-            { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-            { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-            { type: "separator" },
-            { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-            { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-            { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-            { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-        ]},{
-        label: 'View',
-        submenu: [
-          { label: 'Reload', accelerator: 'CmdOrCtrl+R', click(item, focusedWindow) {
-              //require('electron').remote.getCurrentWindow().reload();
-              mainWindow.webContents.reload()
-            }}, 
-          { label: 'Toggle Developer Tools', accelerator: 'CmdOrCtrl+I', click(item, focusedWindow) {
-              mainWindow.webContents.openDevTools()
-            }}
-        ]}
-    ];
+      label: "Application",
+      submenu: [
+          { label: "About", selector: "orderFrontStandardAboutPanel:" },
+          { type: "separator" },
+          { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+      ]}, {
+      label: "Edit",
+      submenu: [
+          { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+          { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+          { type: "separator" },
+          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+          { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+      ]},{
+      label: 'View',
+      submenu: [
+        { label: 'Reload', accelerator: 'CmdOrCtrl+R', click(item, focusedWindow) { mainWindow.webContents.reload(); } }, 
+        { label: 'Toggle Dev Tools', accelerator: 'CmdOrCtrl+I', click(item, focusedWindow) { mainWindow.webContents.openDevTools(); }}
+      ]}
+  ];
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
