@@ -24,6 +24,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     // titleBarStyle: 'hidden-inset',
     backgroundColor: '#f8f8f8',
+    titleBarStyle: 'hidden',
     width: 1200,
     height: 800,
     minWidth: 660,
@@ -47,14 +48,13 @@ function createWindow () {
 
   function getSoapboxURL() {
     var url = 'app.soapboxhq.com';
-
+    
     var token = store.get('token');
     var soapboxUrl = store.get('soapboxUrl');
 
     if(soapboxUrl && token) {
-      var url = soapboxUrl;
+      var url = soapboxUrl.replace(/(^\w+:|^)\/\//, '');
     }
-    console.log(url);
     return url;
   }
 
