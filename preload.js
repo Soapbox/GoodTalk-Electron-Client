@@ -10,7 +10,6 @@ const store = new Store();
 const BASE_DOMAIN = "soapboxhq.com";
 const API_HOST = "api.goodtalk.soapboxhq.com";
 
-
 setNotificationCallback((title, opt) => {
     ipcRenderer.send('notification', title, opt);
 });
@@ -93,7 +92,6 @@ process.once('document-start', () => {
     });
 
     function updateToken(){
-        console.log("updating token...");
         var sessionItem = JSON.parse(localStorage.getItem(['ember_simple_auth-session']));
         if (sessionItem && sessionItem.authenticated) {
             var  token = null; // logged out by default
@@ -127,9 +125,6 @@ process.once('document-start', () => {
                   store.set('soapboxUrl', soapboxUrl);
                   store.set('me', resp);
                 }
-
-                console.log(store.get('soapboxUrl'));
-                console.log(store.get('me'));
               }
             }
             xhr.send();

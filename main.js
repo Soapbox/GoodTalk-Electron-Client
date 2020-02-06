@@ -53,9 +53,9 @@ function createWindow () {
     var soapboxUrl = store.get('soapboxUrl');
 
     if(soapboxUrl && token) {
-      var url = soapboxUrl.replace(/(^\w+:|^)\/\//, '');
+      url = soapboxUrl.replace(/(^\w+:|^)\/\//, '');
     }
-    console.log(url);
+
     return url;
   }
 
@@ -84,9 +84,19 @@ function createWindow () {
       label: "Application",
       submenu: [
           { label: "About", selector: "orderFrontStandardAboutPanel:" },
-          { label: "Sign Out", accelerator: "Command+Q", click: function() { store.delete('soapboxUrl'); store.delete('me'); store.delete('token');}},
+          { label: "Sign Out", accelerator: "Shift+Command+L", 
+            click: function() { 
+                    store.delete('soapboxUrl'); 
+                    store.delete('me'); 
+                    store.delete('token'); 
+                    mainWindow.webContents.session.clearStorageData();
+                    mainWindow.reload();
+            }},
           { type: "separator" },
-          { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+          { label: "Quit", accelerator: "Command+Q", 
+            click: function() { 
+              app.quit(); 
+            }}
       ]}, {
       label: "Edit",
       submenu: [
@@ -100,8 +110,14 @@ function createWindow () {
       ]},{
       label: 'View',
       submenu: [
-        { label: 'Reload', accelerator: 'CmdOrCtrl+R', click(item, focusedWindow) { mainWindow.webContents.reload(); } }, 
-        { label: 'Toggle Dev Tools', accelerator: 'CmdOrCtrl+I', click(item, focusedWindow) { mainWindow.webContents.openDevTools(); }}
+        { label: 'Reload', accelerator: 'CmdOrCtrl+R', 
+          click(item, focusedWindow) { 
+            mainWindow.reload();
+          }}, 
+        { label: 'Toggle Dev Tools', accelerator: 'CmdOrCtrl+I', 
+          click(item, focusedWindow) { 
+            mainWindow.webContents.openDevTools(); 
+          }}
       ]}
   ];
 
