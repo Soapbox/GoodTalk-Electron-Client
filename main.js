@@ -55,6 +55,7 @@ function createWindow () {
     if(soapboxUrl && token) {
       var url = soapboxUrl.replace(/(^\w+:|^)\/\//, '');
     }
+    console.log(url);
     return url;
   }
 
@@ -83,6 +84,7 @@ function createWindow () {
       label: "Application",
       submenu: [
           { label: "About", selector: "orderFrontStandardAboutPanel:" },
+          { label: "Sign Out", accelerator: "Command+Q", click: function() { store.delete('soapboxUrl'); store.delete('me'); store.delete('token');}},
           { type: "separator" },
           { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
       ]}, {

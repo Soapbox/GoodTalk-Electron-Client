@@ -1,7 +1,25 @@
 body {
+  margin-top:6px;
+}
+
+.create-soapbox {
   -webkit-user-select: none;
   -webkit-app-region: drag;
-  margin-top:6px;
+}
+
+.signin-generic {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.start-columns {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.top-bar {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
 }
 
 /* body {

@@ -93,6 +93,7 @@ process.once('document-start', () => {
     });
 
     function updateToken(){
+        console.log("updating token...");
         var sessionItem = JSON.parse(localStorage.getItem(['ember_simple_auth-session']));
         if (sessionItem && sessionItem.authenticated) {
             var  token = null; // logged out by default
@@ -101,6 +102,7 @@ process.once('document-start', () => {
                 // set token
                 token = sessionItem.authenticated.token;
             }
+
             if(token != store.get('token')) {
                 store.set('token', token);
                 updateUserTraits(token);
@@ -121,8 +123,8 @@ process.once('document-start', () => {
                 var slug = attrs ? attrs.slug : null;
   
                 if (slug) {
-                  var url  = "https://" + slug + "." + BASE_DOMAIN;
-                  store.set('soapboxUrl', url);
+                  var soapboxUrl  = slug + "." + BASE_DOMAIN;
+                  store.set('soapboxUrl', soapboxUrl);
                   store.set('me', resp);
                 }
 
