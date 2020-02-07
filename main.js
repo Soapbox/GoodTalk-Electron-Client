@@ -24,6 +24,11 @@ let mainWindow;
 var unreadCount = 0;
 
 function createWindow () {
+
+  if (store.get('unreadCount')) {
+    unreadCount = store.get('unreadCount');
+  }
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     // titleBarStyle: 'hidden-inset',
@@ -77,9 +82,7 @@ function createWindow () {
           { label: "About", selector: "orderFrontStandardAboutPanel:" },
           { label: "Sign Out", accelerator: "Shift+Command+L", 
             click: function() { 
-                    store.delete('soapboxUrl'); 
-                    store.delete('me'); 
-                    store.delete('token'); 
+                    DeleteStoredData();
                     mainWindow.webContents.session.clearStorageData();
                     mainWindow.reload();
             }},
@@ -117,7 +120,7 @@ function createWindow () {
     // Then notify the polling when your job is done:
     end();
     // This will schedule the next call.
-  }, 5000).run();
+  }, 10000).run();
   
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
@@ -148,6 +151,12 @@ app.on('activate', function () {
   }
   updateUnreadBadgeCount();
 });
+
+function DeleteStoredData() {
+  store.delete('soapboxUrl');
+  store.delete('me');
+  store.delete('token');
+}
 
 function getSoapboxURL() {
   var url = 'app.soapboxhq.com';
@@ -193,6 +202,9 @@ function updateUnreadBadgeCount(){
 
         unreadCount = localUnreadCount;
         app.badgeCount = unreadCount;
+        store.set('unreadCount', unreadCount);
+      }).catch(function() {
+        console.log("error");
       });
   } else {
     app.badgeCount = unreadCount;
@@ -202,7 +214,7 @@ function updateUnreadBadgeCount(){
 function NotifyUserOfUnreadChannels() {
   let iconAddress = path.join(__dirname, '/assets/icons/mac/icon.icns');
   notifier.notify({
-    title: '📫 New unread items',
+    title: 'New unread items! 📫 ',
     message: 'You have new unread channels on Soapbox. Check them out now.',
     icon: iconAddress,
     appName: "com.soapboxhq.soapbox-desktop-app",
