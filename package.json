@@ -1,6 +1,6 @@
 {
   "name": "Soapbox",
-  "version": "0.0.1-beta.5",
+  "version": "0.0.1-beta.6",
   "description": "SoapBox is an app designed to help managers have better one-on-ones, team meetings and discussions. Build agendas, manage meetings, get feedback and ideas- all in one place.",
   "main": "main.js",
   "build": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "package-mac": "electron-packager . --overwrite --asar --unpack='node_modules/node-notifier/vendor/**' --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds --version-string.ProductName='Soapbox' --darwinDarkModeSupport=true",
+    "package-mac": "electron-packager . --appname=Soapbox --overwrite --asar.unpackDir='node_modules/node-notifier/vendor/**' --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --out=release-builds --darwinDarkModeSupport=true --app-bundle-id=com.soapboxhq.soapbox-desktop-app",
     "create-installer-mac": "electron-installer-dmg ./release-builds/Soapbox-darwin-x64/Soapbox.app Soapbox --out=release-builds --overwrite --icon=assets/icons/mac/icon.icns"
   },
   "postinstall": "electron-builder install-app-deps",
