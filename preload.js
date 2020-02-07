@@ -32,7 +32,6 @@ ipcRenderer.on('change-zoom', (event, message) => {
  * @param callback
  */
 function setNotificationCallback(callback) {
-
     const OldNotify = window.Notification;
     const newNotify = (title, opt) => {
         callback(title, opt);

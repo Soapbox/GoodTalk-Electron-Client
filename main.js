@@ -1,7 +1,10 @@
 const { app, BrowserWindow, Menu, shell } = require('electron');
 const Store = require('electron-store');
-const path = require('path')
-const url = require('url')
+const path = require('path');
+const url = require('url');
+const fetch = require('electron-fetch').default;
+const AsyncPolling = require('async-polling');
+const notifier = require('node-notifier');
 
 const store = new Store();
 const BASE_DOMAIN = "soapboxhq.com";
@@ -17,7 +20,8 @@ const electronLinks = [
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow;
+var unreadCount = 0;
 
 function createWindow () {
   // Create the browser window.
@@ -45,19 +49,6 @@ function createWindow () {
     protocol: 'https:',
     slashes: true
   }))
-
-  function getSoapboxURL() {
-    var url = 'app.soapboxhq.com';
-    
-    var token = store.get('token');
-    var soapboxUrl = store.get('soapboxUrl');
-
-    if(soapboxUrl && token) {
-      url = soapboxUrl.replace(/(^\w+:|^)\/\//, '');
-    }
-
-    return url;
-  }
 
   // Open links in the browser
   mainWindow.webContents.on('new-window', function(e, url) {
@@ -121,6 +112,13 @@ function createWindow () {
       ]}
   ];
 
+  AsyncPolling(function (end) {
+    updateUnreadBadgeCount();
+    // Then notify the polling when your job is done:
+    end();
+    // This will schedule the next call.
+  }, 5000).run();
+  
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
@@ -129,7 +127,7 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.on('ready', function ()  {
   createWindow()
-})
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
@@ -138,7 +136,7 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
+});
 
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
@@ -146,7 +144,67 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
   }
-})
+  updateUnreadBadgeCount();
+});
+
+function getSoapboxURL() {
+  var url = 'app.soapboxhq.com';
+  
+  var token = store.get('token');
+  var soapboxUrl = store.get('soapboxUrl');
+
+  if(soapboxUrl && token) {
+    url = soapboxUrl.replace(/(^\w+:|^)\/\//, '');
+  }
+
+  return url;
+}
+
+function updateUnreadBadgeCount(){
+  var token = store.get('token');
+  var soapboxUrl = store.get('soapboxUrl');
+  
+  if (token && soapboxUrl) {
+    var options = {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+      },
+    }
+
+    var localUnreadCount = 0;
+    var apiURL = `https://${API_HOST}/channels`;
+    fetch(apiURL, options)
+      .then(res => res.json())
+      .then(json => {
+        json.data.forEach(function(channel){
+          var attributes = channel.attributes
+          if(attributes['is-read'] != undefined && attributes['is-read'] == false) {
+            localUnreadCount++;
+          }
+        });
+
+        if(localUnreadCount > unreadCount) {
+          NotifyUserOfUnreadChannels();
+        }
+
+        unreadCount = localUnreadCount;
+        app.badgeCount = unreadCount;
+      });
+  } else {
+    app.badgeCount = unreadCount;
+  }
+}
+
+function NotifyUserOfUnreadChannels() {
+  let iconAddress = path.join(__dirname, '/assets/icons/mac/icon.icns');
+  notifier.notify({
+    title: '📫 New unread items',
+    message: 'You have new unread channels on Soapbox. Check them out now.',
+    icon: iconAddress
+  });
+}
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
