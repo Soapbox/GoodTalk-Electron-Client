@@ -115,7 +115,17 @@ function createWindow () {
         { label: 'Reload', accelerator: 'CmdOrCtrl+R', 
           click(item, focusedWindow) { 
             mainWindow.reload();
-          }}, 
+          }},
+        { label: "Back", accelerator: "CmdOrCtrl+Left", click: function() { 
+            if(mainWindow.webContents.canGoBack()) {
+              mainWindow.webContents.goBack();
+            }
+          }},
+        { label: "Forward", accelerator: "CmdOrCtrl+Right", click: function() { 
+            if(mainWindow.webContents.canGoForward()) {
+              mainWindow.webContents.goForward();
+            }
+          }},   
         { label: 'Toggle Dev Tools', accelerator: 'CmdOrCtrl+I', 
           click(item, focusedWindow) { 
             mainWindow.webContents.openDevTools(); 
