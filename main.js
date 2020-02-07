@@ -122,6 +122,8 @@ function createWindow () {
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
+app.setAppUserModelId("com.soapboxhq.soapbox-desktop-app");
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -202,7 +204,8 @@ function NotifyUserOfUnreadChannels() {
   notifier.notify({
     title: '📫 New unread items',
     message: 'You have new unread channels on Soapbox. Check them out now.',
-    icon: iconAddress
+    icon: iconAddress,
+    appName: "com.soapboxhq.soapbox-desktop-app",
   });
 }
 
