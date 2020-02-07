@@ -13,9 +13,9 @@ const API_HOST = "api.goodtalk.soapboxhq.com";
 const electronLinks = [
   'https://slack.com/signin',
   'https://slack.com/oauth',
-  'https://accounts.google.com/o/oauth2/v2/auth',
-  'https://www.googleapis.com/oauth2/v4/token',
-  'https://accounts.google.com/signin/oauth/oauthchooseaccount'
+  'https://accounts.google.com/o/oauth2',
+  'https://www.googleapis.com/oauth2',
+  'https://accounts.google.com/signin'
 ];
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -80,6 +80,14 @@ function createWindow () {
       label: "Application",
       submenu: [
           { label: "About", selector: "orderFrontStandardAboutPanel:" },
+          { label: "Choose Soapbox", accelerator: "Shift+Command+C", 
+            click: function() {
+              mainWindow.loadURL(url.format({
+                pathname: 'app.soapboxhq.com',
+                protocol: 'https:',
+                slashes: true
+              }))
+            }},
           { label: "Sign Out", accelerator: "Shift+Command+L", 
             click: function() { 
                     DeleteStoredData();
@@ -120,7 +128,7 @@ function createWindow () {
     // Then notify the polling when your job is done:
     end();
     // This will schedule the next call.
-  }, 10000).run();
+  }, 15000).run();
   
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
