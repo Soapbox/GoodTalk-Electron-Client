@@ -1,6 +1,6 @@
 {
   "name": "Soapbox",
-  "version": "0.0.1-beta.4",
+  "version": "0.0.1-beta.5",
   "description": "SoapBox is an app designed to help managers have better one-on-ones, team meetings and discussions. Build agendas, manage meetings, get feedback and ideas- all in one place.",
   "main": "main.js",
   "build": {
