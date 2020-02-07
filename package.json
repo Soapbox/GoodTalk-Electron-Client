@@ -4,15 +4,17 @@
   "description": "SoapBox is an app designed to help managers have better one-on-ones, team meetings and discussions. Build agendas, manage meetings, get feedback and ideas- all in one place.",
   "main": "main.js",
   "build": {
-    "build": {
-      "appId": "com.soapboxhq.soapbox-desktop-app"
-    }
-  },
+    "appId": "com.soapboxhq.soapbox-desktop-app"
+  }
+  ,
   "scripts": {
     "start": "electron .",
     "package-mac": "electron-packager . --overwrite --asar --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds --darwinDarkModeSupport=true",
-    "create-installer-mac": "electron-installer-dmg ./release-builds/Soapbox-darwin-x64/Soapbox.app Soapbox --out=release-builds --overwrite --icon=assets/icons/mac/icon.icns"
+    "create-installer-mac": "electron-installer-dmg ./release-builds/Soapbox-darwin-x64/Soapbox.app Soapbox --out=release-builds --overwrite --icon=assets/icons/mac/icon.icns",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
+  "postinstall": "electron-builder install-app-deps",
   "repository": "https://github.com/SoapBox/GoodTalk-Electron-Client",
   "keywords": [
     "Soapbox",
