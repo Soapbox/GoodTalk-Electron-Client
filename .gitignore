@@ -1,14 +1,13 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+node_modules
+.DS_Store
+Thumbs.db
+*.log
 
-# dependencies
-/node_modules
-/bower_components
+/dist
+/temp
+/release-builds
 
-# misc
-/.sass-cache
-/connect.lock
-/coverage/*
-/libpeerconnection.log
-npm-debug.log
-testem.log
-.DS_STORE
+# ignore everything in 'app' folder what had been generated from 'src' folder
+/app/app.js
+/app/background.js
+/app/**/*.map

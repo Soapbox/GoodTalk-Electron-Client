@@ -1,4 +1,28 @@
-/*body {
+body {
+  margin-top:8px;
+}
+
+.create-soapbox {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.signin-generic {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.start-columns {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.top-bar {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+/* body {
   margin-top: 98px;
 }
 .topbar__container {
@@ -19,4 +43,76 @@
   font-size: 14px;
   text-shadow: 0 1px 1px rgba(255,255,255,0.2);
   -webkit-app-region: drag;
-}*/
+} */
+/* 
+body {
+  color: #f5f6f7;
+}
+
+.top-bar {
+    border-bottom: 1px solid #605e80;
+    background: #121212;
+}
+
+.top-bar .brand__soapbox a {
+  color: #f5f6f7;
+}
+
+.top-bar .brand__menu-toggle {
+  color: #f5f6f7;
+}
+
+.search\/top-bar-nav--focused .nav__input {
+  border-color: #2291f8;
+  outline: 0;
+  color: #343a40;
+}
+
+.page-layout__content-wrapper {
+  background-color: #121212;
+  color: #f5f6f7;
+}
+
+.page-layout__sidebar {
+  border-right: 1px solid #212529;
+  background: #121212;
+}
+
+.channel-menu__create {
+  background: #121212;
+}
+
+.channel-list\/item .nav-link--is-unread {
+  color: #f5f6f7;
+}
+
+.channel-menu .feature-trigger.active:not(.ember-transitioning-out), .channel-menu .feature-trigger.ember-transitioning-in {
+  background-color: #121212;
+  color: #d2d5de;
+}
+
+.today\/unscheduled-meeting .name {
+  color: #d2d5de;
+}
+
+.today\/next-steps-container__header {
+  color: #f5f6f7;
+}
+
+.today\/channel-card {
+  background: #212121;
+  color: #f5f6f7;
+}
+
+.today\/channel-card .channel-card-item-adder__textfield textarea {
+  color: #f5f6f7;
+  background: #212121;
+}
+
+.today\/next-steps-container__header {
+  color: #f5f6f7;
+}
+
+.today\/calendar-events\/event .content__name {
+  color: #f5f6f7;
+}  */

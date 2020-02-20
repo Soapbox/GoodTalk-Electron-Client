@@ -1,21 +1,35 @@
 {
-  "name": "GoodTalk",
-  "version": "0.0.1-beta.2",
-  "description": "A minimal app for good talks.",
+  "name": "Soapbox",
+  "version": "0.0.1-beta.6",
+  "description": "SoapBox is an app designed to help managers have better one-on-ones, team meetings and discussions. Build agendas, manage meetings, get feedback and ideas- all in one place.",
   "main": "main.js",
-  "scripts": {
-    "start": "electron ."
+  "build": {
+    "appId": "com.soapboxhq.soapbox-desktop-app"
   },
+  "scripts": {
+    "start": "electron .",
+    "package-mac": "electron-packager . --appname=Soapbox --overwrite --asar.unpackDir='node_modules/node-notifier/vendor/**' --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --out=release-builds --darwinDarkModeSupport=true --app-bundle-id=com.soapboxhq.soapbox-desktop-app",
+    "create-installer-mac": "electron-installer-dmg ./release-builds/Soapbox-darwin-x64/Soapbox.app Soapbox --out=release-builds --overwrite --icon=assets/icons/mac/icon.icns"
+  },
+  "postinstall": "electron-builder install-app-deps",
   "repository": "https://github.com/SoapBox/GoodTalk-Electron-Client",
   "keywords": [
-    "GoodTalk",
+    "Soapbox",
     "Electron",
     "Client"
   ],
-  "author": "SoapBox",
+  "author": "Soapbox",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^1.4.1",
-    "electron-packager": "^8.3.0"
+    "electron": "^8.0.0",
+    "electron-installer-dmg": "^3.0.0",
+    "electron-packager": "^8.7.2"
+  },
+  "dependencies": {
+    "async-polling": "^0.2.1",
+    "electron-fetch": "^1.4.0",
+    "electron-store": "^5.1.0",
+    "mousetrap": "^1.6.5",
+    "node-notifier": "^6.0.0"
   }
 }
