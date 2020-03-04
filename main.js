@@ -308,13 +308,20 @@ function updateUnreadBadgeCount(){
   }
 }
 
-function NotifyUserOfUnreadChannels() {
-  //let iconAddress = path.join(__dirname, '/assets/icons/mac/icon.icns');
+function NotifyUserOfUnreadChannels(desiredURL) {
+  var url = desiredURL ? desiredURL : undefined;
+  //url = 'com.soapboxhq.soapbox-desktop-app';
+  
   notifier.notify({
     title: 'New unread items! 📫 ',
+    appID: 'com.soapboxhq.soapbox-desktop-app',
     message: 'You have new unread channels on Soapbox. Check them out now.',
-    //icon: iconAddress,
+    //open: url,
+    sound: true,
     appName: "com.soapboxhq.soapbox-desktop-app",
+  }).on('click', function() {
+    //console.log(arguments);
+    mainWindow.show();
   });
 }
 
