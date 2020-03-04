@@ -309,11 +309,11 @@ function updateUnreadBadgeCount(){
 }
 
 function NotifyUserOfUnreadChannels() {
-  let iconAddress = path.join(__dirname, '/assets/icons/mac/icon.icns');
+  //let iconAddress = path.join(__dirname, '/assets/icons/mac/icon.icns');
   notifier.notify({
     title: 'New unread items! 📫 ',
     message: 'You have new unread channels on Soapbox. Check them out now.',
-    icon: iconAddress,
+    //icon: iconAddress,
     appName: "com.soapboxhq.soapbox-desktop-app",
   });
 }

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "package-mac": "electron-packager . --appname=Soapbox --overwrite --asar.unpackDir='/node_modules/node-notifier/vendor/**' --platform=darwin --arch=x64 --icon='./assets/icons/mac/icon.icns' --out=release-builds --darwinDarkModeSupport=true --app-bundle-id=com.soapboxhq.soapbox-desktop-app",
+    "package-mac": "electron-packager . --appname=Soapbox --overwrite --asar.unpackDir='node_modules/node-notifier/vendor/**' --platform=darwin --arch=x64 --icon='./assets/icons/mac/icon.icns' --out=release-builds --darwinDarkModeSupport=true --app-bundle-id=com.soapboxhq.soapbox-desktop-app",
     "create-installer-mac": "electron-installer-dmg ./release-builds/Soapbox-darwin-x64/Soapbox.app Soapbox --out=release-builds --overwrite --icon=assets/icons/mac/icon.icns"
   },
   "postinstall": "electron-builder install-app-deps",
