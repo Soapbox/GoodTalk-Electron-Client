@@ -1,10 +1,14 @@
-const { app, BrowserWindow, Menu, shell } = require('electron');
+const electron = require('electron');
+const { app, BrowserWindow, Menu, shell, TouchBar, nativeImage} = require('electron');
+
 const Store = require('electron-store');
 const path = require('path');
 const url = require('url');
 const fetch = require('electron-fetch').default;
 const AsyncPolling = require('async-polling');
 const notifier = require('node-notifier');
+
+const { TouchBarLabel, TouchBarButton, TouchBarSpacer } = TouchBar;
 
 const store = new Store();
 const BASE_DOMAIN = "soapboxhq.com";
@@ -22,6 +26,64 @@ const electronLinks = [
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 var unreadCount = 0;
+var unreadChannelInfo = [];
+
+
+const agendaButton = new TouchBarButton({
+  label: '📒 Agenda',
+  backgroundColor: '#97E5FF',
+  click: () => {
+    console.log('Agenda open!');
+    //document.querySelector('.channel-header__footer .tab-bar a:nth-child(1)');
+  }
+});
+
+const pastMeetingButton = new TouchBarButton({
+  label: '🗓 Past Meetings',
+  backgroundColor: '#97FFE5',
+  click: () => {
+    console.log('Agenda open!');
+    //document.querySelector('.channel-header__footer .tab-bar a:nth-child(2)');
+  }
+});
+
+const insightsButton = new TouchBarButton({
+  label: '📈 Insights',
+  backgroundColor: '#E597FF',
+  click: () => {
+    console.log('Agenda open!');
+    //document.querySelector('.channel-header__footer .tab-bar a:nth-child(3)');
+  }
+});
+
+const notesButton = new TouchBarButton({
+  label: '📝 Notes',
+  backgroundColor: '#FFE597',
+  click: () => {
+    console.log('Agenda open!');
+  }
+});
+
+const settingsButton = new TouchBarButton({
+  label: '⚙️ Settings',
+  backgroundColor: '#828282',
+  click: () => {
+    
+  }
+});
+
+
+const touchBar = new TouchBar({
+  items: [
+    agendaButton,
+    pastMeetingButton,
+    insightsButton,
+    new TouchBarSpacer({size: 'flexible'}),
+    notesButton,
+    settingsButton
+  ]
+});
+  
 
 function createWindow () {
 
@@ -55,6 +117,8 @@ function createWindow () {
     slashes: true
   }))
 
+  mainWindow.setTouchBar(touchBar);
+  
   // Open links in the browser
   mainWindow.webContents.on('new-window', function(e, url) {
     var openExternally = true;
@@ -149,7 +213,7 @@ app.setAppUserModelId("com.soapboxhq.soapbox-desktop-app");
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function ()  {
-  createWindow()
+  createWindow();
 });
 
 // Quit when all windows are closed.
@@ -203,14 +267,24 @@ function updateUnreadBadgeCount(){
     }
 
     var localUnreadCount = 0;
+    unreadChannelInfo = [];
     var apiURL = `https://${API_HOST}/channels`;
     fetch(apiURL, options)
       .then(res => res.json())
       .then(json => {
         json.data.forEach(function(channel){
+          //console.log(channel);
           var attributes = channel.attributes
           if(attributes['is-read'] != undefined && attributes['is-read'] == false) {
             localUnreadCount++;
+            
+            var item = [];
+            item['channelId'] = channel['id'];
+            item['name'] = attributes['name'];
+            item['avatar'] = attributes['avatar'];
+            item['background-gradient'] = attributes['background-gradient'];
+            item['mascot'] = attributes['mascot'];
+            unreadChannelInfo.push(item);
           }
         });
 
@@ -218,6 +292,7 @@ function updateUnreadBadgeCount(){
           NotifyUserOfUnreadChannels();
         }
 
+        UpdateUnreadTouchBarItems();
         unreadCount = localUnreadCount;
         app.badgeCount = unreadCount;
         store.set('unreadCount', unreadCount);
@@ -237,6 +312,51 @@ function NotifyUserOfUnreadChannels() {
     icon: iconAddress,
     appName: "com.soapboxhq.soapbox-desktop-app",
   });
+}
+
+function UpdateUnreadTouchBarItems() {
+  var touchBarItems = [];
+  var todayButton = new TouchBarButton({
+    'label': '📅 Today', 
+    'backgroundColor': '#97E5FF',
+    'click': () => {
+      mainWindow.loadURL(url.format({
+        pathname: getSoapboxURL(),
+        protocol: 'https:',
+        slashes: true
+      }));
+    }
+  });
+  touchBarItems.push(todayButton);
+
+  if(unreadChannelInfo.length > 0) {
+    unreadChannelInfo.forEach(function(channel) {
+      var color = '#' + channel['background-gradient'].split('-')[0];
+      var link = getSoapboxURL() + '/channels/'+ channel['channelId'] + '/inbox';
+      //var image = nativeImage.createFromDataURL(channel.avatar).resize({width: 16,height: 16});
+      var unreadButton = new TouchBarButton({
+        'label': channel.name, //channel.mascot + ' ' + 
+        'backgroundColor': color,
+        'click': () => {
+          mainWindow.loadURL(url.format({
+            pathname: link,
+            protocol: 'https:',
+            slashes: true
+          }));
+        },
+        // 'icon': image,
+        // 'iconPosition': 'center',
+      });
+      
+      touchBarItems.push(unreadButton);
+    });
+  }
+  
+  var newTouchBar = new TouchBar({
+    items: touchBarItems
+  });
+
+  mainWindow.setTouchBar(newTouchBar);
 }
 
 // In this file you can include the rest of your app's specific main process
