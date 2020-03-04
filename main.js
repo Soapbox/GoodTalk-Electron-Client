@@ -235,6 +235,8 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
   }
+  console.log("activate window");
+  checkIfShouldReloadContent();
   updateUnreadBadgeCount();
 });
 
@@ -255,6 +257,29 @@ function getSoapboxURL() {
   }
 
   return url;
+}
+
+function checkIfShouldReloadContent() {
+  var shouldReloadAppContent = false;
+  var currentDatetime = new Date();
+  var storedDatetime = null;
+
+  if(!store.get('lastRefreshDatetime')) {
+    store.set('lastRefreshDatetime', currentDatetime.getTime());
+    storedDatetime = currentDatetime;
+  } else {
+    var storedDateAsLong = store.get('lastRefreshDatetime');
+    storedDatetime = new Date(storedDateAsLong);
+  }
+
+  var timeDiff = Math.abs(currentDatetime.getTime() - storedDatetime.getTime());
+  var diffHours = Math.floor(timeDiff / (1000 * 60 * 60));
+  
+  shouldReloadAppContent = (diffHours > 4) ? true : false;
+    
+  if(shouldReloadAppContent) {
+    mainWindow.reload();
+  }
 }
 
 function updateUnreadBadgeCount(){
