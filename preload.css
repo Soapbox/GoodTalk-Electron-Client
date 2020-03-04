@@ -2,6 +2,10 @@ body {
   margin-top:8px;
 }
 
+.install-chrome-extension {
+  display: none !important;
+}
+
 .create-soapbox {
   -webkit-user-select: none;
   -webkit-app-region: drag;
