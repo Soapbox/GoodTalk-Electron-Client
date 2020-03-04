@@ -193,7 +193,11 @@ function createWindow () {
         { label: 'Toggle Dev Tools', accelerator: 'CmdOrCtrl+I', 
           click(item, focusedWindow) { 
             mainWindow.webContents.openDevTools(); 
-          }}
+          }},
+        { label: 'Load test notification', accelerator: 'CmdOrCtrl+N', 
+          click(item, focusedWindow) { 
+            NotifyUserOfUnreadChannels();
+          }},
       ]}
   ];
 
