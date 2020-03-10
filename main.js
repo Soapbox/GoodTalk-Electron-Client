@@ -274,10 +274,11 @@ function checkIfShouldReloadContent() {
 
   var timeDiff = Math.abs(currentDatetime.getTime() - storedDatetime.getTime());
   var diffHours = Math.floor(timeDiff / (1000 * 60 * 60));
-  
+
   shouldReloadAppContent = (diffHours > 4) ? true : false;
     
   if(shouldReloadAppContent) {
+    store.set('lastRefreshDatetime', currentDatetime.getTime());
     mainWindow.reload();
   }
 }
