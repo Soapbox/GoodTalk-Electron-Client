@@ -1,5 +1,5 @@
 const electron = require('electron');
-const { app, BrowserWindow, Menu, shell, TouchBar, nativeImage} = require('electron');
+const { app, BrowserWindow, Menu, shell, TouchBar, nativeImage, clipboard} = require('electron');      
 
 const Store = require('electron-store');
 const path = require('path');
@@ -185,9 +185,15 @@ function createWindow () {
               mainWindow.webContents.goBack();
             }
           }},
-        { label: "Forward", accelerator: "CmdOrCtrl+Right", click: function() { 
+          { label: "Forward", accelerator: "CmdOrCtrl+Right", click: function() { 
             if(mainWindow.webContents.canGoForward()) {
               mainWindow.webContents.goForward();
+            }
+          }},
+        { label: "Share", accelerator: "CmdOrCtrl+L", click: function() { 
+            if(mainWindow.webContents.getURL()) {
+              NotifyUserOfShareLinkCopiedToClipboard();
+              clipboard.writeText(mainWindow.webContents.getURL());
             }
           }},   
         { label: 'Toggle Dev Tools', accelerator: 'CmdOrCtrl+I', 
@@ -248,15 +254,23 @@ function DeleteStoredData() {
 
 function getSoapboxURL() {
   var url = 'app.soapboxhq.com';
-  
   var token = store.get('token');
   var soapboxUrl = store.get('soapboxUrl');
 
   if(soapboxUrl && token) {
     url = soapboxUrl.replace(/(^\w+:|^)\/\//, '');
   }
-
   return url;
+}
+
+function NotifyUserOfShareLinkCopiedToClipboard() {
+  notifier.notify({
+    title: 'Copied to clipboard 📋!',
+    appID: 'com.soapboxhq.soapbox-desktop-app',
+    message: 'The share link to this page has been copied to your clipboard.',
+    sound: true,
+    appName: "com.soapboxhq.soapbox-desktop-app",
+  });
 }
 
 function checkIfShouldReloadContent() {
