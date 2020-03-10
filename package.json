@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "async-polling": "^0.2.1",
+    "electron-context-menu": "^0.16.0",
     "electron-fetch": "^1.4.0",
     "electron-store": "^5.1.0",
     "mousetrap": "^1.6.5",

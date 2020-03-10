@@ -1,6 +1,6 @@
 const electron = require('electron');
 const { app, BrowserWindow, Menu, shell, TouchBar, nativeImage, clipboard} = require('electron');      
-
+const contextMenu = require('electron-context-menu');
 const Store = require('electron-store');
 const path = require('path');
 const url = require('url');
@@ -84,6 +84,32 @@ const touchBar = new TouchBar({
   ]
 });
   
+//Right click - context menu
+contextMenu({
+	prepend: (defaultActions, params, browserWindow) => [
+    {
+      label: 'Share this page',
+      visible: mainWindow.webContents.getURL() ? true : false,
+      click: () => {
+        NotifyUserOfShareLinkCopiedToClipboard();
+        clipboard.writeText(mainWindow.webContents.getURL());
+      }
+    },
+    // {
+		// 	label: 'Rainbow',
+		// 	// Only show it when right-clicking images
+		// 	visible: params.mediaType === 'image'
+		// // },
+		// {
+		// 	label: 'Search Google for “{selection}”',
+		// 	// Only show it when right-clicking text
+		// 	visible: params.selectionText.trim().length > 0,
+		// 	click: () => {
+		// 		shell.openExternal(`https://google.com/search?q=${encodeURIComponent(params.selectionText)}`);
+		// 	}
+		// }
+	]
+});
 
 function createWindow () {
 
